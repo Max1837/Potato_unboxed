@@ -1,0 +1,31 @@
+name: Produkte aus Google Sheets aktualisieren
+
+on:
+  schedule:
+    - cron: "17 4 * * *"   # jeden Tag um ca. 5–6 Uhr deutscher Zeit
+  workflow_dispatch: {}     # manuell starten: Actions → "Produkte … aktualisieren" → Run workflow
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pillow
+      - run: python3 update.py
+      - name: Änderungen speichern
+        run: |
+          git config user.name "sheet-updater"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A data img
+          if git diff --cached --quiet; then
+            echo "Keine Änderungen in der Tabelle."
+          else
+            git commit -m "Produkte aktualisiert ($(date +%F))"
+            git push
+          fi

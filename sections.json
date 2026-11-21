@@ -1,0 +1,157 @@
+{
+  "tabs": [
+    {
+      "id": "main",
+      "title": "Finds",
+      "gid": "705634069",
+      "sections": [
+        "Best Items",
+        "Shoes",
+        "Slides",
+        "Puffer Jackets",
+        "Jackets",
+        "Fur Jackets",
+        "Bomber Jackets",
+        "Denim Jackets",
+        "Baseball Jackets",
+        "Vests",
+        "Fleece Jackets",
+        "Windbreakers",
+        "Hoodies",
+        "Shirts",
+        "Sweaters",
+        "Longsleeves",
+        "Polo Shirts",
+        "Tees",
+        "Sweatpants",
+        "Jeans",
+        "Sets",
+        "Sports Accessories",
+        "Shorts",
+        "Bags",
+        "Belts",
+        "Underwear",
+        "Watches",
+        "Glasses",
+        "Electronics",
+        "Necklaces",
+        "Hats",
+        "Bracelets",
+        "Rings",
+        "Earrings",
+        "Wallets",
+        "Perfume",
+        "Lego & Toys",
+        "Phone Accessories",
+        "Home Accessories"
+      ]
+    },
+    {
+      "id": "archive",
+      "title": "Archive Fashion",
+      "gid": "2037966457"
+    },
+    {
+      "id": "igbrands",
+      "title": "IG Brands Finds",
+      "gid": "1820779323"
+    }
+  ],
+  "groups": [
+    {
+      "id": "best",
+      "sections": [
+        "Best Items"
+      ]
+    },
+    {
+      "id": "shoes",
+      "sections": [
+        "Shoes",
+        "Slides"
+      ]
+    },
+    {
+      "id": "jackets",
+      "sections": [
+        "Puffer Jackets",
+        "Jackets",
+        "Fur Jackets",
+        "Bomber Jackets",
+        "Denim Jackets",
+        "Baseball Jackets",
+        "Vests",
+        "Fleece Jackets",
+        "Windbreakers"
+      ]
+    },
+    {
+      "id": "tops",
+      "sections": [
+        "Hoodies",
+        "Shirts",
+        "Sweaters",
+        "Longsleeves",
+        "Polo Shirts",
+        "Tees"
+      ]
+    },
+    {
+      "id": "bottoms",
+      "sections": [
+        "Sweatpants",
+        "Jeans",
+        "Shorts",
+        "Underwear"
+      ]
+    },
+    {
+      "id": "sets",
+      "sections": [
+        "Sets",
+        "Sports Accessories"
+      ]
+    },
+    {
+      "id": "bags",
+      "sections": [
+        "Bags",
+        "Wallets"
+      ]
+    },
+    {
+      "id": "accessories",
+      "sections": [
+        "Belts",
+        "Watches",
+        "Glasses",
+        "Hats",
+        "Phone Accessories"
+      ]
+    },
+    {
+      "id": "jewelry",
+      "sections": [
+        "Necklaces",
+        "Bracelets",
+        "Rings",
+        "Earrings"
+      ]
+    },
+    {
+      "id": "other",
+      "sections": [
+        "Electronics",
+        "Perfume",
+        "Lego & Toys",
+        "Home Accessories"
+      ]
+    },
+    {
+      "id": "archive"
+    },
+    {
+      "id": "igbrands"
+    }
+  ]
+}
