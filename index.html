@@ -14,6 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="685f39d6-8c4c-4751-a4a6-5ccbf96f77cf" data-domains="potato-unboxed.com"></script>
   <style>
     :root {
       --bg: #050506; --text: #f5f2f4; --muted: #9a949c; --line: rgba(255,255,255,.1);
@@ -140,7 +141,7 @@
     <nav class="links" id="links" aria-label="Links"></nav>
 
     <div class="socials" id="socials"></div>
-    <button class="share" id="share" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>Share</button>
+    <button class="share" id="share" type="button" data-umami-event="Share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>Share</button>
     <footer>Potato Unboxed · <span id="year"></span></footer>
   </main>
 
@@ -173,11 +174,11 @@
     document.getElementById("links").innerHTML = LINKS.filter(l => l.url).map((l, i) => {
       const ext = /^https?:/.test(l.url);
       const ic = l.hero ? '<span class="ic"><img src="assets/logo.png" alt=""></span>' : `<span class="ic" style="background:${l.color}">${ICONS[l.icon] || ""}</span>`;
-      return `<a class="link${l.hero ? " hero" : ""}" href="${esc(l.url)}" ${ext ? 'target="_blank" rel="noopener"' : ""} style="animation-delay:${120 + i * 90}ms">
+      return `<a class="link${l.hero ? " hero" : ""}" href="${esc(l.url)}" ${ext ? 'target="_blank" rel="noopener"' : ""} data-umami-event="Link: ${esc(l.title.split(" –")[0])}" style="animation-delay:${120 + i * 90}ms">
         ${ic}<span class="txt"><b>${esc(l.title)}${l.tag ? `<span class="tag">${esc(l.tag)}</span>` : ""}</b><span>${esc(l.sub)}</span></span>${ARROW}</a>`;
     }).join("");
     document.getElementById("socials").innerHTML = SOCIALS.map(s =>
-      `<a href="${esc(s.url)}" target="_blank" rel="noopener" aria-label="${esc(s.name)}" title="${esc(s.name)}">${ICONS[s.icon]}</a>`).join("");
+      `<a href="${esc(s.url)}" target="_blank" rel="noopener" data-umami-event="Social: ${esc(s.name)}" aria-label="${esc(s.name)}" title="${esc(s.name)}">${ICONS[s.icon]}</a>`).join("");
     document.getElementById("year").textContent = new Date().getFullYear();
 
     document.getElementById("share").addEventListener("click", async () => {

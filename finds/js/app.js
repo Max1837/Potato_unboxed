@@ -24,6 +24,9 @@
   const T = () => Object.assign({}, I18N.en, I18N[S.lang] || {});
   const t = (k, vars) => { let s = T()[k] ?? k; if (vars) for (const v in vars) s = s.replace("{" + v + "}", vars[v]); return s; };
   const gname = id => (T().g || {})[id] || I18N.en.g[id] || id;
+  // Statistik (Umami) – tut nichts, wenn das Script blockiert ist
+  const track = (name, data) => { try { window.umami && window.umami.track(name, data); } catch { /* ignore */ } };
+  const trackView = () => { try { window.umami && window.umami.track(p => ({ ...p, url: location.pathname.replace(/\/$/, "") + (location.hash || "#/").slice(1), title: document.title })); } catch { /* ignore */ } };
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
   // ---------- icons ----------
@@ -180,7 +183,7 @@
       </div>
       <div class="actions">
         <button class="btn btn-ghost" data-open="${p.id}">${I.eye}${esc(t("details"))}</button>
-        <a class="btn btn-light" href="${esc(p.u)}" target="_blank" rel="noopener nofollow">${I.bag}${esc(t("buy"))}</a>
+        <a class="btn btn-light" href="${esc(p.u)}" target="_blank" rel="noopener nofollow" data-buy="${p.id}">${I.bag}${esc(t("buy"))}</a>
       </div>
     </article>`;
   }
@@ -287,13 +290,14 @@
         ${p.f ? `<blockquote><small>${esc(t("feedback"))}</small>${esc(p.f)}</blockquote>` : ""}
         <p class="muted" style="font-size:12.5px;margin:0">${esc(t("priceNote"))}</p>
         <div class="cta">
-          <a class="btn btn-pink" href="${esc(p.u)}" target="_blank" rel="noopener nofollow">${I.bag}${esc(t("buy"))}</a>
+          <a class="btn btn-pink" href="${esc(p.u)}" target="_blank" rel="noopener nofollow" data-buy="${p.id}">${I.bag}${esc(t("buy"))}</a>
           <button class="btn btn-ghost" data-copy="${esc(p.u)}" aria-label="${esc(t("copy"))}" title="${esc(t("copy"))}">${I.link}</button>
           <button class="btn btn-ghost heart-btn ${S.favs.has(p.u) ? "on" : ""}" data-fav="${p.id}" aria-label="${esc(t("favorites"))}">${I.heart}</button>
         </div>
       </div></div>`;
     m.hidden = false; document.body.classList.add("lock");
     paintFav();
+    track("Product View", { product: p.n.slice(0, 80), category: sec.name });
   }
   function closeProduct() {
     const m = $("#productModal"); if (m.hidden) return;
@@ -332,6 +336,7 @@
       if (l) { S.lang = l.dataset.lang; store.set("lang", S.lang); applyStaticI18n(); draw(); }
       else if (c) { S.cur = c.dataset.cur; store.set("cur", S.cur); draw(); }
       else if (e.target.closest("[data-start]") || e.target === m) {
+        track("Setup", { language: S.lang, currency: S.cur });
         store.set("setupDone", true); m.hidden = true; document.body.classList.remove("lock");
         applyStaticI18n(); renderCatBar(); route();
       }
@@ -344,10 +349,12 @@
 
   // ---------- global events ----------
   document.addEventListener("click", e => {
+    const buy = e.target.closest("[data-buy]");
+    if (buy) { const p = P(+buy.dataset.buy); track("Buy Now", { product: p.n.slice(0, 80), category: secOf(p).name, price: p.p ?? 0 }); }
     const fav = e.target.closest("[data-fav]");
     if (fav) {
       e.preventDefault(); const u = P(+fav.dataset.fav).u;
-      S.favs.has(u) ? S.favs.delete(u) : S.favs.add(u);
+      S.favs.has(u) ? S.favs.delete(u) : (S.favs.add(u), track("Favorite", { product: P(+fav.dataset.fav).n.slice(0, 80) }));
       store.set("favs", [...S.favs]); paintFav(); return;
     }
     const op = e.target.closest("[data-open]");
@@ -361,7 +368,7 @@
     if (e.target.closest("[data-close]") || e.target.id === "productModal") closeProduct();
   });
   document.addEventListener("change", e => {
-    if (e.target.id === "sortSel") { S.sort = e.target.value; route(true); }
+    if (e.target.id === "sortSel") { S.sort = e.target.value; route(true); track("Sort", { sort: S.sort }); }
   });
   document.addEventListener("keydown", e => {
     if (e.key === "Escape") { closeProduct(); closeSearch(); }
@@ -382,6 +389,8 @@
     clearTimeout(qT);
     qT = setTimeout(() => {
       S.q = e.target.value.trim();
+      clearTimeout(S.searchT);
+      if (S.q.length > 1) S.searchT = setTimeout(() => track("Search", { query: S.q.toLowerCase().slice(0, 60) }), 1500);
       if (!/^#\/(c\/|$)/.test(location.hash || "#/")) { history.replaceState(null, "", "#/"); S.group = "all"; S.section = null; }
       route(true);
     }, 160);
@@ -415,7 +424,7 @@
     }
     if (!keepScroll) window.scrollTo({ top: 0, behavior: "instant" });
   }
-  window.addEventListener("hashchange", () => route());
+  window.addEventListener("hashchange", () => { route(); if (!location.hash.startsWith("#/p/")) trackView(); });
 
   // ---------- boot ----------
   $("#discordFab").href = SITE.discord;
