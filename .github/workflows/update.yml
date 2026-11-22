@@ -17,12 +17,12 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install pillow
-      - run: python3 update.py
+      - run: python3 finds/update.py
       - name: Änderungen speichern
         run: |
           git config user.name "sheet-updater"
           git config user.email "actions@users.noreply.github.com"
-          git add -A data img
+          git add -A finds/data finds/img
           if git diff --cached --quiet; then
             echo "Keine Änderungen in der Tabelle."
           else

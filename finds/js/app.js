@@ -254,7 +254,7 @@
           <a class="btn btn-light" href="${SITE.discord}" target="_blank" rel="noopener">Discord</a></div>
         <div class="tool"><h3><span class="fi">${I.users}</span>${esc(t("social"))}</h3>
           <div class="socials"><a class="btn btn-ghost" href="${SITE.tiktok}" target="_blank" rel="noopener">TikTok</a>
-          <a class="btn btn-ghost" href="${SITE.beacons}" target="_blank" rel="noopener">Beacons</a>
+          <a class="btn btn-ghost" href="${SITE.links}">Links</a>
           <a class="btn btn-ghost" href="${SITE.discord}" target="_blank" rel="noopener">Discord</a></div></div>
       </div></div>`;
     const conv = () => {

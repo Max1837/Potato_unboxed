@@ -3,7 +3,7 @@ window.SITE = {
   name: "Potato Unboxed",
   discord: "https://discord.gg/gvsSjAGjpZ",
   tiktok: "https://www.tiktok.com/@max_outfit_index",
-  beacons: "https://beacons.ai/potato_unboxed",
+  links: "../",               // deine Link-Seite
   register: "https://litbuy.com/register?inviteCode=HTER1BHTX",
   tracking: "https://parcelsapp.com/en/tracking/",
   // Ungefähre Wechselkurse (1 USD = …). Werden beim Laden automatisch aktualisiert, falls möglich.
